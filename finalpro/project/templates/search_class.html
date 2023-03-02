@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result</title>
+
+    <style>
+        body{background-color: #ccc; font-family: calibri; margin: 0; padding: 0;}
+        h1{ color: rgb(103, 52, 16); text-align: center; letter-spacing: 3px; font-size: 40px; margin-top: 5%; margin-bottom: 3%;}
+        h3{font-weight: lighter; font-size: 20px;}
+        table {font-family: Arial; border-collapse: collapse; width: 70%; }
+        table td, table th {border: 1px solid #ddd; padding: 8px;}
+        table tr:nth-child(even){background-color: #f2f2f2;}
+        table tr:hover {background-color: #ffffff; color: #aa0404;}
+        table th {padding-top: 7px; padding-bottom: 7px; text-align: left; background-color: #aa0404; color: white;}
+        select{width: 183px; padding:8px 10px; margin: 3px 0;  display: inline-block; border: 1px solid #ccc; box-sizing: border-box;}
+        button { background-color: black; color: white; padding: 5px 0px 6px 0px; border: none; cursor: pointer; width: 70%; border-radius: 20%;}
+        button:hover{opacity: 80%;}
+        a:hover {color: rgb(228, 148, 148)}
+        a {text-decoration: none; color: #ddd;}
+        input{ margin-left: 10px;
+  padding:8px 10px;
+  margin: 3px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+        select:hover{opacity: 80%; cursor: pointer;}
+
+        
+        .header{width: 100%; height: 70px; background-color: #111; border-bottom: 3px solid red;}
+.logo1{float: left; margin-left: 1%;}
+.logo2{float: left; padding-right: 1%;}
+.title{float: left; margin-top: 1%; color: #818181; font-size: 40px;}
+
+.nav2{padding-top: 5px;}
+.sidenav {
+  height: 100%;
+  width: 230px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  margin-top: 72px;
+  
+}
+
+.sidenav a {
+  padding: 6px 6px 6px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block ;
+  margin-top: 8px;
+}
+
+.sidenav a:hover {color: #f1f1f1; border-bottom: 3px solid red;;}
+
+.nav2 a{border-bottom: 3px solid red; color: #f1f1f1;}
+
+.main {
+  margin-left: 200px; /* Same as the width of the sidenav */
+}
+
+
+
+
+
+
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+    
+    </style>
+
+</head>
+<script>
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+      document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    }
+    
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("main").style.marginLeft= "0";
+      document.body.style.backgroundColor = "white";
+    }
+    </script>
+
+    <body>
+      {% load static %}
+
+    <div class="header">
+      <div class="logo1">
+        <img src="{% static "media/Logo_kpm.png" %}" width="70" height="70">
+      </div>
+      <div class="logo2">
+        <img src="{% static "media/dcs.png" %}" width="70" height="70">
+      </div>
+      <div class="title">DCS PORTAL > STUDENTS</div>
+    </div>
+
+    <div class="sidenav">
+        <a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'view_class' %}">DCS Lecture</a>
+        <a href="{% url 'keyin' %}">Key-in Result</a>
+        <div class="nav2">
+        <a href="{% url 'search_class' %}">Student Result</a>
+        </div>
+        <a href="{% url 'login' %}">Logout</a>
+      </div>
+    </div>
+
+    <div class="main">
+      <center>
+        <h1>SEARCH BY CLASS</h1>
+        <form action="search_class" method="get">
+          <h3>
+            CLASS:
+            <select name="s_class">
+              <option value="">Select One</option>
+              {% for value in allecture %}
+              <option value="{{value.lecture}}">{{value.lecture}}</option>
+              {% endfor %}
+            </select>
+            <input type="submit" value="search" style="cursor: pointer;">
+          </h3>
+        </form>
+        <br><br>
+        {% if lecture != None %}
+        {% if num_result != 0 %}
+        <p style="text-decoration: underline;">LIST OF {{lecture}} STUDENT</p>
+        <br>
+        <table>
+          <tr>
+            <th><strong>CLASS</strong></th>
+            <th><strong>STUDENT ID</strong></th>
+            <th><strong>NAME</strong></th>
+            <th><strong>VIEW</strong></th>
+            <th><strong>DELETE</strong></th>
+          </tr>
+          {% for value in data %}
+          <tr>
+            <td>{{value.r_class_id}}</td>
+            <td>{{value.r_id_id}}</td>
+            <td>{{value.r_id__studName}}</td>
+            <td>
+              <center>
+                <button><a href="checking?studID={{ value.r_id_id }}">view</a></button>
+              </center>
+            </td>
+            <td>
+              <center>
+                <button><a href="{% url 'delete_student' r_id_id=value.r_id_id %}">delete</a></button>
+              </center>
+            </td>
+          </tr>
+          {% endfor %}
+        </table>
+        {% else %}
+        STUDENT {{lecture}} NOT FOUND 
+        {% endif %}
+        {% endif %}
+        <br><br>
+      </center>
+    </div>
+
+</body>
+</html>

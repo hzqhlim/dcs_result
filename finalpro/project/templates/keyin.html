@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key-in</title>
+
+    <style>
+      body {
+          font-family: calibri;
+          background-color: #ccc;
+          margin: 0;
+          padding: 0;
+      }
+      
+      h1 {
+          color: rgb(103, 52, 16);
+          text-align: center;
+          letter-spacing: 3px;
+          font-size: 40px;
+          margin-top: 2%;
+          margin-bottom: 2%;
+      }
+      
+      a {
+          text-decoration: underline;
+          transition: color .4 ease;
+          color: white;
+          font-size: 20px;
+      }
+      
+      a:hover {
+          color: cadetblue;
+      }
+      
+      input {
+          width: 300px;
+          padding: 8px 10px;
+          margin: 3px 0;
+          margin-left: 20px;
+          display: inline-block;
+          border: 1px solid #ccc;
+          box-sizing: border-box;
+      }
+      
+      select {
+          width: 300px;
+          padding: 8px 10px;
+          margin: 4px 0;
+          margin-left: 20px;
+          display: inline-block;
+          border: 1px solid #ccc;
+          box-sizing: border-box;
+      }
+      
+      table tr,
+      td {
+          text-align: left;
+      }
+      
+      .btn {
+          width: 6%;
+          cursor: pointer;
+          margin-left: 38%;
+      }
+      
+      .header {
+          width: 100%;
+          height: 70px;
+          background-color: #111;
+          border-bottom: 3px solid red;
+      }
+      
+      .logo1 {
+          float: left;
+          margin-left: 1%;
+      }
+      
+      .logo2 {
+          float: left;
+          padding-right: 1%;
+      }
+      
+      .title {
+          float: left;
+          margin-top: 1%;
+          color: #818181;
+          font-size: 40px;
+      }
+      
+      .nav1 {
+          background-color: rgb(150, 14, 41);
+          color: #ffffff;
+          padding: 6px 6px 6px 32px;
+      }
+      
+      .nav2 {
+          padding-top: 5px;
+      }
+      
+      .sidenav {
+          height: 100%;
+          width: 230px;
+          position: fixed;
+          z-index: 1;
+          top: 0;
+          left: 0;
+          background-color: #111;
+          overflow-x: hidden;
+          margin-top: 72px;
+      }
+      
+      .sidenav a {
+          padding: 6px 6px 6px 32px;
+          text-decoration: none;
+          font-size: 25px;
+          color: #818181;
+          display: block;
+          margin-top: 8px;
+      }
+      
+      .sidenav a:hover {
+          color: #f1f1f1;
+          border-bottom: 3px solid red;
+      }
+      
+      .nav2 a {
+          border-bottom: 3px solid red;
+          color: #f1f1f1;
+      }
+      
+      .main {
+          margin-left: 200px;
+          /* Same as the width of the sidenav */
+      }
+      
+      @media screen and (max-height: 450px) {
+          .sidenav {
+              padding-top: 15px;
+          }
+          .sidenav a {
+              font-size: 18px;
+          }
+      }
+  </style>
+
+
+  </head>
+
+    <body>
+      {% load static %}
+
+    <div class="header">
+      <div class="logo1">
+        <img src="{% static "media/Logo_kpm.png" %}" width="70" height="70">
+      </div>
+      <div class="logo2">
+        <img src="{% static "media/dcs.png" %}" width="70" height="70">
+      </div>
+      <div class="title">DCS PORTAL > KEY-IN</div>
+    </div>
+
+    <div class="sidenav">
+        <a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'view_class' %}">DCS Lecture</a>
+        <div class="nav2">
+        <a href="{% url 'keyin' %}">Key-in Result</a>
+        </div>
+        <a href="{% url 'search_class' %}">Student Result</a>
+        <a href="{% url 'login' %}">Logout</a>
+      </div>
+    </div>
+
+    <div class="main">
+      <center>
+          <h1>Key-in Form</h1>
+          
+          <form action="keyin" method="post">
+              {% csrf_token %}
+              <table cellspacing="2" align="center" cellpadding="2" border="0">
+                  <tr>
+                      <td>STUDENT ID:</td>   
+                      <td>
+                          <select name="k_id">
+                              <option value="">Select One</option>
+                              {% for value in allstudent %}
+                              <option value="{{value.studID}}">{{value.studID}}</option>
+                              {% endfor %}
+                          </select>
+                      </td>
+                  </tr>   
+                  <tr>
+                      <td>STUDENT PROGRAM:</td>  
+                      <td>
+                          <input type="text" placeholder="Enter session" name="k_program" value="DIPLOMA IN COMPUTER SCIENCE" readonly>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>CLASS:</td>  
+                      <td>
+                          <select name="k_class">
+                              <option value="">Select One</option>
+                              {% for value in allecture %}
+                              <option value="{{value.lecture}}">{{value.lecture}}</option>
+                              {% endfor %}
+                          </select>
+                      </td>
+                  </tr>  
+                  <tr>
+                      <td>SESSION:</td>  
+                      <td>
+                          <input type="text" placeholder="Enter session" name="k_session" value="SESSION 3 2022/2023" readonly>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>SUBJECT CODE:</td>  
+                      <td>
+                          <input type="text" placeholder="Enter program" name="k_code">
+                      </td>
+                  </tr> 
+                  <tr>
+                      <td>SUBJECT DESCRIPTION:</td>  
+                      <td>
+                          <input type="text" placeholder="Enter description" name="k_desc">
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>GRADE:</td>  
+                      <td>
+                          <input type="text" placeholder="Enter grade" name="k_grade">
+                      </td>
+                  </tr>  
+                  <tr>
+                      <td>CREDIT:</td>  
+                      <td>
+                          <input type="text" placeholder="Enter credit" name="k_credit">
+                      </td>
+                  </tr>   
+                  <tr>
+                      <td>STATUS:</td>  
+                      <td>
+                          <select name="k_status">
+                              <option value="">Select One</option>
+                              {% for value in allstatus %}
+                              <option value="{{value.result_status}}">{{value.result_status}}</option>
+                              {% endfor %}
+                          </select>
+                      </td>
+                  </tr>
+                  <tr>
+                      <td></td>
+                  </tr>
+              </table>  
+  
+              <input type="submit" value="SAVE" class="btn"><br>
+              {{message}}
+
+          </form>
+      </center>
+  </div>
+</body>
+</html>

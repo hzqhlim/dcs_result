@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogIn</title>
+
+    <style>
+
+      * {
+          box-sizing: border-box;
+      }
+  
+      body {
+          font-family: Arial, Helvetica, sans-serif;
+          background-color: #888;
+          margin: 0;
+      }
+  
+      .studentlink button {
+          padding-top: 5%;
+          color: aliceblue;
+          float: left;
+          border: none;
+          text-decoration: underline;
+          font-size: 15px;
+          background-color: transparent;
+          cursor: pointer;
+      }
+  
+      .lecturerlink button {
+          padding-top: 5%;
+          padding-bottom: 5%;
+          color: aliceblue;
+          float: right;
+          border: none;
+          text-decoration: underline;
+          font-size: 15px;
+          background-color: transparent;
+          cursor: pointer;
+      }
+  
+      .lecturerlink button:hover {
+          color: rgb(228, 148, 148);
+      }
+  
+      .studentlink button:hover {
+          color: rgb(228, 148, 148);
+      }
+  
+      .action1 button {
+          background-color: transparent;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: double 5px;
+          cursor: pointer;
+          width: 40%;
+      }
+  
+      .action2 button {
+          background-color: black;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 25%;
+          margin-left: 37%;
+      }
+  
+      .cancel button {
+          background-color: black;
+          color: white;
+          padding: 14px 20px;
+          margin: 8px 0;
+          border: none;
+          cursor: pointer;
+          width: 25%;
+          margin-left: 37%;
+      }
+  
+      .action1 button:hover {
+          color: rgb(228, 148, 148);
+          background-color: black;
+      }
+  
+      button:hover {
+          opacity: 0.8;
+      }
+  
+      .container {
+          padding: 16px;
+      }
+  
+      .form {
+          display: flex;
+      }
+  
+      .signform {
+          background-color: #fefefe;
+          margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+          width: 400px;
+      }
+  
+      .kpm {
+          float: left;
+      }
+  
+      .dcs {
+          float: right;
+      }
+  
+      .bg {
+          position: relative;
+      }
+  
+      .contentluar {
+          position: absolute;
+          transform: translate(-50%, -50%);
+          top: 50%;
+          left: 50%;
+      }
+
+      /* Full-width input fields */
+      input[type=text], input[type=password] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 5px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        opacity: 70%;
+      }
+
+      /* The Modal (background) */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        padding-top: 60px;
+      }
+
+      /* Add Zoom Animation */
+      .animate {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s
+      }
+
+      @-webkit-keyframes animatezoom {
+        from {-webkit-transform: scale(0)} 
+        to {-webkit-transform: scale(1)}
+      }
+        
+      @keyframes animatezoom {
+        from {transform: scale(0)} 
+        to {transform: scale(1)}
+      }
+
+      /* Change styles for span and cancel button on extra small screens */
+      @media screen and (max-width: 300px) {
+        span.psw {
+          display: block;
+          float: none;
+        }
+        .cancelbtn {
+          width: 100%;
+        }}
+
+</style> 
+
+</head>
+
+    <script>
+      // Get the modals
+      var signupStudModal = document.getElementById('signupStud');
+      var signupLectModal = document.getElementById('signupLect');
+
+      // When the user clicks anywhere outside of the modals, close them
+      window.onclick = function(event) {
+      if (event.target == signupStudModal) {
+        signupStudModal.style.display = "none";
+      } else if (event.target == signupLectModal) {
+        signupLectModal.style.display = "none";
+      } else if (event.target.id == "cancel-btn") {
+        signupStudModal.style.display = "none";
+      } else if (event.target.id == "cancel-btn-lect") {
+        signupLectModal.style.display = "none";
+      }
+    }
+
+    </script>
+<body>
+  {% load static %}
+  <div class="bg">
+    <img src="{% static "media/bgLogin.png" %}" width="100%" height="644" style="filter: brightness(60%); ">
+    <div class="contentluar">
+      <center>
+        <div class="kpm">
+          <img src="{% static "media/Logo_kpm.png" %}" width="150" height="150">
+        </div>
+        <div class="dcs">
+          <img src="{% static "media/dcs.png" %}" width="150" height="150">
+        </div>
+        <br><br>
+        
+        <!--**********************************************************************************************************-->
+
+        <div class="studentlink">
+          <button onclick="document.getElementById('signupStud').style.display='block'" style="width:auto;">Student</button>
+        </div>
+        <div class="lecturerlink">
+          <button onclick="document.getElementById('signupLect').style.display='block'" style="width:auto;">Mentor</button>
+        </div>
+
+        <!--**********************************************************************************************************-->
+
+        <form action="login" method="POST">
+          {% csrf_token %}
+          <div class="content">
+            <div class="input-field">
+              <input type="text" name="login_id" placeholder="Login ID" />
+            </div>
+
+            <div class="input-field">
+              <input type="password" name="login_pass" placeholder="Password" />
+            </div>
+
+            <p style="color: white ;">{{error_message}}</p>
+
+            <br/>
+
+            <div class="action1">
+              <button type="submit">Log in</button>
+            </div>
+            <br>
+          </div>
+        </form>
+
+        <!------------------------------------------------------------------------------------------------------------------------>
+
+        <br>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          <p style="color: white;">{{ message }}</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+
+        <!--**********************************************************************************************************-->
+        
+        <div id="signupStud" class="modal">
+          <div class="signform">
+            <form action="save_signupStud" method="post">
+              <div class="container">
+                <div class="content">
+                  <center>Student Register</center><br>
+                  <div class="input-field">
+                    {% csrf_token %}
+                    <input type="text" name="studID" placeholder="ID Number" />
+                    <input type="text" name="studName" placeholder="Name" />
+                    <input type="text" name="studIC" placeholder="IC Number" />
+                    <input type="text" name="studClass" placeholder="Class: 'DCS 1A'" />
+                    <input type="text" name="studPass" placeholder="Password" />
+                  </div>
+                </div>
+                <div class="action2">
+                  <button type="submit" id="signin">Sign Up</button>
+                </div>
+                <div class="cancel">
+                  <button id="cancel-btn" type="button" onclick="document.getElementById('signupStud').style.display='none'">Cancel</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          </div>
+        </div>    
+
+        <!--**********************************************************************************************************-->
+
+        <div id="signupLect" class="modal">
+
+        <div class="signform">
+          <form action="save_signupLect" method="post">
+
+            <div class="container">
+
+              <div class="content">
+                <center>Mentor Register</center><br>
+                <div class="input-field">
+                  {% csrf_token %}
+
+                  <input type="text" name="lectID" placeholder="ID Number" />
+                  <input type="text" name="lectName" placeholder="Name" />
+                  <input type="text" name="lectPass" placeholder="Password" />
+                </div>
+              </div>
+
+              <div class="action2">
+                <button type="submit" id="signin">Sign Up</button>
+              </div>
+              <div class="cancel">
+                <button id="cancel-btn-lect" type="button" onclick="document.getElementById('signupLect').style.display='none'">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </center>
+
+
+</body>
+</html>

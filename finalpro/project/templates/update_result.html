@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key-in</title>
+
+<style>
+
+body{font-family: calibri; background-color: #ccc; margin: 0; padding: 0; }
+h1{ color: rgb(103, 52, 16); text-align: center; letter-spacing: 3px; font-size: 40px; margin-top: 2%; margin-bottom: 2%;}
+.btn1 {margin-left: 10%;   padding:8px 10px;
+  margin: 3px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box; }
+        .btn { width: 5%; border: 1px solid #ccc; cursor: pointer;   padding:8px 10px;
+  margin: 3px 0;
+  margin-left: 10px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box; }
+        .btn input:hover{opacity: 80%;}
+a{text-decoration:underline ; transition: color .4 ease; color: white; font-size: 20px;}
+a:hover{color: cadetblue;}
+.inpu input{
+  width: 300px;
+  padding:8px 10px;
+  margin: 3px 0;
+  margin-left: 20px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+select{width: 300px; padding:8px 10px; margin: 4px 0; margin-left: 20px; display: inline-block; border: 1px solid #ccc; box-sizing: border-box;}
+table tr, td{text-align: left;}
+.btn{width: 10%; cursor: pointer; margin-right: -240px;}
+
+.header{width: 100%; height: 70px; background-color: #111;border-bottom: 3px solid red;}
+.logo1{float: left; margin-left: 1%;}
+.logo2{float: left; padding-right: 1%;}
+.title{float: left; margin-top: 1%; color: #818181; font-size: 40px;}
+
+.nav1{background-color: rgb(150, 14, 41); color: #ffffff; padding:  6px 6px 6px 32px;}
+.nav2{padding-top: 5px;}
+.sidenav {
+  height: 100%;
+  width: 230px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  margin-top: 72px;
+  
+}
+
+.sidenav a {
+  padding: 6px 6px 6px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block ;
+  margin-top: 8px;
+}
+
+.sidenav a:hover {color: #f1f1f1; border-bottom: 3px solid red;;}
+
+.nav2 a{border-bottom: 3px solid red; color: #f1f1f1;}
+
+.main {
+  margin-left: 200px; /* Same as the width of the sidenav */
+}
+
+
+
+
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+
+
+
+
+
+
+
+
+
+
+</style> 
+
+</head>
+
+    <script>
+    function openNav() {
+      document.getElementById("mySidenav").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+      document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    }
+    
+    function closeNav() {
+      document.getElementById("mySidenav").style.width = "0";
+      document.getElementById("main").style.marginLeft= "0";
+      document.body.style.backgroundColor = "white";
+    }
+    </script>
+
+<body>
+  {% load static %}
+
+
+<div class="header">
+  <div class="logo1">
+    <img src="{% static "media/Logo_kpm.png" %}" width="70" height="70">
+  </div>
+  <div class="logo2">
+    <img src="{% static "media/dcs.png" %}" width="70" height="70">
+  </div>
+  <div class="title">DCS PORTAL | UPDATE RESULT</div>
+</div>
+
+    <div class="sidenav">
+
+
+        <a href="{% url 'index' %}">Home</a>
+        <a href="{% url 'view_class' %}">DCS Lecture</a>
+        <a href="{% url 'keyin' %}">Key-in Result</a>
+        <a href="{% url 'search_class' %}">Student Result</a>
+        <a href="{% url 'login' %}">Logout</a>
+      </div>
+    </div>
+    <div class="main">
+    <center>
+      <h1>Update Result Form</h1>
+
+    <form action="{% url 'save_update_result' data.r_id_id %}" method="post">
+<div class="inpu">
+    <table cellspacing="2" align="center" cellpadding="2" border="0" >
+        {% csrf_token %} 
+        <tr><td>STUDENT ID:</td>   
+        <td><input type="text" placeholder="Enter student ID" name="k_id" value="{{data.r_id_id}}" readonly></td></tr>  
+        <tr><td>PROGRAM:</td>  
+        <td><input type="text" placeholder="Enter program" name="k_program" value="{{data.r_prog}}" readonly></td></tr>  
+        <tr><td>CLASS:</td>  
+          <td>
+            <select name="k_class" id="k_class">
+              {% for course in allcourse %}
+                  {% if course.lecture == f_class %}
+                      <option value="{{ course.lecture }}" selected>{{ course.lecture }}</option>
+                  {% else %}
+                      <option value="{{ course.lecture }}">{{ course.lecture }}</option>
+                  {% endif %}
+              {% endfor %}
+          </select>
+        </td></tr>  
+        <tr><td>SESSION:</td>  
+        <td><input type="text" placeholder="Enter session" name="k_session" value="{{data.r_session}}" readonly></td></tr> 
+        <tr><td>CODE:</td>  
+        <td><input type="text" placeholder="Enter program" name="k_code" value="{{data.r_code}}" readonly></td></tr> 
+        <tr><td>DESCRIPTION:</td>  
+        <td><input type="text" placeholder="Enter description" name="k_desc" value="{{data.r_desc}}" readonly></td></tr>
+        <tr><td>GRADE:</td> 
+        <td><input type="text" placeholder="Enter grade" name="k_grade" value="{{data.r_grade}}"></td></tr>  
+        <tr><td>CREDIT:</td>  
+        <td><input type="text" placeholder="Enter credit" name="k_credit" value="{{data.r_kredit}}"></td></tr>   
+        <tr><td>STATUS:</td> 
+          <td>
+            <select name="k_status" id="k_status">
+              {% for status in allstatus %}
+                {% if status.result_status == data.r_status %}
+                  <option value="{{ status.result_status }}" selected>{{ status.result_status }}</option>
+                {% else %}
+                  <option value="{{ status.result_status }}">{{ status.result_status }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          
+          <tr><td>
+        </table></div>  
+
+        <a href=""><input type="button" value="BACK" class="btn1" style="cursor: pointer;" ></a>
+        <input type="submit" value="UPDATE" class="btn"> <br><br>
+
+    <center>
+
+
+        
+
+</body>
+</html>

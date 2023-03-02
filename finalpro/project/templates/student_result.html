@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result</title>
+
+    <style>
+        body{margin: 0; padding: 0; background-color: #ccc; font-family: Arial, Helvetica, sans-serif;}
+        h1{ color: rgb(103, 52, 16); text-align: center; letter-spacing: 3px; font-size: 40px; margin-top: 2%; margin-bottom: 2%;}
+        .result table {font-family: Arial; border-collapse: collapse; width: 90%; }
+        .result table td, table th {border: 1px solid #ddd; padding: 8px;}
+        .result table tr:nth-child(even){background-color: #f2f2f2;}
+        .result table th {padding-top: 7px; padding-bottom: 7px; text-align: left; background-color: #aa0404; color: white;}
+        button { background-color: black; color: white; padding: 5px 0px 6px 0px; border: none; cursor: pointer; width: 50%; border-radius: 20%;}
+        button:hover{opacity: 80%;}
+        a:hover {color: aqua; }
+        a {text-decoration: none; color: #ddd;}
+        input{ width: 5%; border: 1px solid #ccc;border-radius: 20%; padding: 3px 10px; cursor: pointer;}
+        input:hover{opacity: 80%;}
+        select{margin-left: 10px; padding: 3px 10px;}
+        select:hover{opacity: 80%; cursor: pointer;}
+        .link a{color: blue;}
+        .header{width: 100%; height: 70px; background-color: #111;border-bottom: 3px solid red;}
+.logo1{float: left; margin-left: 1%;}
+.logo2{float: left; padding-right: 1%;}
+.logo3{float: right; margin-top: 1.4%; margin-right: 1.5%;}
+.logo3:hover{ cursor: pointer;}
+.title{float: left; margin-top: 1%; color: #818181; font-size: 40px;}
+    </style>
+
+</head>
+
+
+<body>
+
+    {% load static %}
+
+
+    <div class="header">
+      <div class="logo1">
+        <img src="{% static "media/Logo_kpm.png" %}" width="70" height="70">
+      </div>
+      <div class="logo2">
+        <img src="{% static "media/dcs.png" %}" width="70" height="70">
+      </div>
+      <div class="title">DCS PORTAL</div>
+      <div class="logo3">
+        <a href="{% url 'login' %}" ><img src="{% static "media/logout.png" %}" width="30" height="35"></a>
+      </div>
+    </div>
+
+    
+    <div class="main">
+    <center>
+        <br><br>
+        <h1>{{student.studID }} - RESULT</h1>
+        
+        <br>
+        <form action="{% url 'student_result' %}" method="get">  
+            <table cellspacing="2" align="center" cellpadding="2" border="0" >  
+                <tr>
+                    <td>NAME:</td>  
+                    <td>{{ student.studName }}</td>
+                </tr>
+                <tr>
+                    <td>STUDENT ID:</td>   
+                    <td>{{student.studID }}</td>
+                </tr>
+                <tr>
+                    <td>IC NUMBER:</td>  
+                    <td>{{ student.studIC }}</td>
+                </tr>
+                <tr>
+                    <td>PROGRAM:</td>  
+                    <td>{{ program }}</td>
+                </tr>
+            </table>
+        
+            <br><br/>
+        
+            <div class="result">
+                {% if results %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>COURSE CODE</th>
+                                <th>COURSE DESCRIPTION</th>
+                                <th>CREDIT</th>
+                                <th>GRADE</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                                <tr>
+                                    <td>{{ result.r_code }}</td>
+                                    <td>{{ result.r_desc }}</td>
+                                    <td>{{ result.r_kredit }}</td>
+                                    <td>{{ result.r_grade }}</td>
+                                    <td>{{ result.r_status_id }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No results found for this student.</p>
+                {% endif %}
+            </div>
+        </form>
+        <br><br>
+    </center>
+
+
+</body>
+</html>
